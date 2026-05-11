@@ -1,9 +1,11 @@
-# Reddit Search Toolkit
+# Reddit Search Toolkit (Unofficial)
 
 A Chrome extension that composes Reddit search and listing URLs and
 opens them in a new tab — no scraping, no automation, no API calls. The
 extension **only generates URLs**; the user (or the browser) does
 everything else.
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by Reddit, Inc.
 
 ---
 

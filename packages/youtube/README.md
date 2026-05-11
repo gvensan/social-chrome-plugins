@@ -1,9 +1,11 @@
-# YouTube Search Toolkit
+# YouTube Search Toolkit (Unofficial)
 
 A Chrome extension that composes YouTube search URLs and opens them in
 a new tab — no scraping, no automation, no API calls, no Google
 account access. The extension **only generates URLs**; the user (or the
 browser) does everything else.
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by YouTube or Google.
 
 Filtering is driven by YouTube's `sp=` parameter — an opaque
 base64-protobuf token. We don't reverse-engineer it; the extension

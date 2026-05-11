@@ -1,8 +1,10 @@
-# LinkedIn Feed Toolkit
+# LinkedIn Feed Toolkit (Unofficial)
 
 A Chrome extension that composes LinkedIn search URLs and opens them in
 a new tab — no scraping, no automation, no API calls. The extension
 **only generates URLs**; the user (or the browser) does everything else.
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by LinkedIn Corporation.
 
 ---
 

@@ -1,9 +1,11 @@
-# Hacker News Search Toolkit
+# Hacker News Search Toolkit (Unofficial)
 
 A Chrome extension that composes Hacker News search URLs (powered by
 the Algolia HN search at `hn.algolia.com`) and opens them in a new tab
 — no scraping, no automation, no API calls. The extension **only
 generates URLs**; the user (or the browser) does everything else.
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by Y Combinator.
 
 ---
 

@@ -1,9 +1,11 @@
-# X Search Toolkit
+# X Search Toolkit (Unofficial)
 
 A Chrome extension that composes X (formerly Twitter) advanced search
 URLs and opens them in a new tab — no scraping, no API calls. Pure URL
 construction with operator helpers (`from:`, `since:`, `min_faves:`,
 `filter:images`, etc.).
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by X Corp.
 
 ---
 

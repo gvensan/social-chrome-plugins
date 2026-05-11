@@ -1,8 +1,10 @@
-# GitHub Search Toolkit
+# GitHub Search Toolkit (Unofficial)
 
 A Chrome extension that composes GitHub search URLs and opens them in
 a new tab — no scraping, no API calls. Pure URL construction with
 qualifier helpers (`language:`, `stars:`, `is:open`, etc.).
+
+> **Unofficial.** Independent third-party tool. Not affiliated with, endorsed by, or sponsored by GitHub, Inc. or Microsoft.
 
 ---
 

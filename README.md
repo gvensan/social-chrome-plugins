@@ -4,23 +4,23 @@ A monorepo of lightweight Chrome extensions that compose, save, and
 launch high-signal search URLs on platforms whose search syntax is
 opaque to most users. **Seven plugins** shipping in this repo:
 
-- **LinkedIn Feed Toolkit** (`packages/linkedin/`) — recent posts from
+- **LinkedIn Feed Toolkit (Unofficial)** (`packages/linkedin/`) — recent posts from
   people you follow, ultra-fresh job listings, topic monitors,
   targeted people searches with saved company/person filters.
-- **GitHub Search Toolkit** (`packages/github/`) — qualifier-helper
+- **GitHub Search Toolkit (Unofficial)** (`packages/github/`) — qualifier-helper
   builders for repositories / code / issues / PRs / users; trending
   + review queue + assigned-issues "inbox" templates.
-- **X Search Toolkit** (`packages/x/`) — advanced-search composer
+- **X Search Toolkit (Unofficial)** (`packages/x/`) — advanced-search composer
   with operator helpers (`from:`, `since:`, `min_faves:`,
   `filter:images`); per-mode tabs (Top / Latest / People / Media).
-- **YouTube Search Toolkit** (`packages/youtube/`) — keyword search
+- **YouTube Search Toolkit (Unofficial)** (`packages/youtube/`) — keyword search
   with preset filters (today / this week / HD / long-form / CC license)
   using YouTube's opaque `sp=` filter parameter.
-- **Reddit Search Toolkit** (`packages/reddit/`) — posts / comments /
+- **Reddit Search Toolkit (Unofficial)** (`packages/reddit/`) — posts / comments /
   subreddits / users / feed search builders.
-- **Hugging Face Search Toolkit** (`packages/huggingface/`) — models /
+- **Hugging Face Search Toolkit (Unofficial)** (`packages/huggingface/`) — models /
   datasets / spaces search with task, license, and library filters.
-- **Hacker News Search Toolkit** (`packages/hackernews/`) — Algolia-
+- **Hacker News Search Toolkit (Unofficial)** (`packages/hackernews/`) — Algolia-
   powered HN search with author, time-range, and story-vs-comment
   scoping.
 
