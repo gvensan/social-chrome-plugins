@@ -1,0 +1,64 @@
+# ─── Dependencies ────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Build / release artifacts ───────────────────────────────────
+# Each plugin's Vite build output, plus the per-plugin zip bundle.
+# Tracked source lives under packages/<pkg>/src/ — never under dist/.
+dist/
+release/
+*.zip
+*.tsbuildinfo
+
+# Vite + crxjs scratch
+.vite/
+
+# ─── Test / coverage ─────────────────────────────────────────────
+coverage/
+lcov.info
+.nyc_output/
+
+# ─── Environment / secrets ───────────────────────────────────────
+# CWS_* and EXTENSION_ID_* variables for chrome-webstore-upload-cli
+# live in CI secrets or local exports — never committed.
+.env
+.env.local
+.env.*.local
+*.local
+
+# ─── Logs ────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── OS files ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── Editor / tooling state ──────────────────────────────────────
+# Track the shareable .vscode/extensions.json (recommends the right
+# Svelte/Tailwind extensions) but ignore personal settings/launch.
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── Tooling state (local to one machine) ────────────────────────
+# Claude Code session state, scheduled-task locks, etc.
+.claude/
+
+# ─── Misc generated files ────────────────────────────────────────
+# Vite bundle analyzer output if anyone runs it locally.
+stats.html
+
+
+# ─── WORK files ────────────────────────────────────────
+documents/*
+webpage

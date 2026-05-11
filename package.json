@@ -1,0 +1,51 @@
+{
+  "name": "browser-search-toolkit",
+  "version": "0.1.0",
+  "description": "Monorepo for browser search-URL composer extensions (LinkedIn, GitHub, X).",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @toolkit/linkedin-extension",
+    "dev:linkedin": "npm run dev -w @toolkit/linkedin-extension",
+    "dev:github": "npm run dev -w @toolkit/github-extension",
+    "dev:x": "npm run dev -w @toolkit/x-extension",
+    "dev:youtube": "npm run dev -w @toolkit/youtube-extension",
+    "dev:reddit": "npm run dev -w @toolkit/reddit-extension",
+    "dev:huggingface": "npm run dev -w @toolkit/huggingface-extension",
+    "dev:hackernews": "npm run dev -w @toolkit/hackernews-extension",
+    "build": "npm run build --workspaces --if-present",
+    "build:linkedin": "npm run build -w @toolkit/linkedin-extension",
+    "build:github": "npm run build -w @toolkit/github-extension",
+    "build:x": "npm run build -w @toolkit/x-extension",
+    "build:youtube": "npm run build -w @toolkit/youtube-extension",
+    "build:reddit": "npm run build -w @toolkit/reddit-extension",
+    "build:huggingface": "npm run build -w @toolkit/huggingface-extension",
+    "build:hackernews": "npm run build -w @toolkit/hackernews-extension",
+    "test": "npm run test --workspaces --if-present",
+    "test:linkedin": "npm run test -w @toolkit/linkedin-extension",
+    "test:github": "npm run test -w @toolkit/github-extension",
+    "test:x": "npm run test -w @toolkit/x-extension",
+    "test:youtube": "npm run test -w @toolkit/youtube-extension",
+    "test:reddit": "npm run test -w @toolkit/reddit-extension",
+    "test:huggingface": "npm run test -w @toolkit/huggingface-extension",
+    "test:hackernews": "npm run test -w @toolkit/hackernews-extension",
+    "check": "npm run check --workspaces --if-present",
+    "release": "node scripts/release.mjs",
+    "release:all": "node scripts/release-all.mjs",
+    "release:linkedin": "node scripts/release.mjs linkedin",
+    "release:github": "node scripts/release.mjs github",
+    "release:x": "node scripts/release.mjs x",
+    "release:youtube": "node scripts/release.mjs youtube",
+    "release:reddit": "node scripts/release.mjs reddit",
+    "release:huggingface": "node scripts/release.mjs huggingface",
+    "release:hackernews": "node scripts/release.mjs hackernews",
+    "format": "prettier --write \"packages/**/src/**/*.{ts,svelte,css,html,json}\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  }
+}

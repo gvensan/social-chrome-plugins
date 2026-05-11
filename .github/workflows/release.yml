@@ -1,0 +1,102 @@
+name: Release
+
+# Triggered by pushing a tag of the form `<plugin>-v<version>`, e.g.
+#   git tag linkedin-v0.2.0 && git push --tags
+# The plugin name in the tag selects which package builds, zips, and
+# uploads — no cross-plugin coupling. To release a new version, bump
+# both `packages/<pkg>/src/manifest.json` AND `packages/<pkg>/package.json`,
+# commit, then push the tag.
+on:
+  push:
+    tags:
+      - 'linkedin-v*'
+      - 'github-v*'
+      - 'x-v*'
+      - 'youtube-v*'
+      - 'reddit-v*'
+      - 'huggingface-v*'
+      - 'hackernews-v*'
+
+# Avoid two concurrent uploads racing the Chrome Web Store API for the
+# same extension. Per-plugin concurrency group; same plugin re-tagged
+# while a release is mid-flight cancels the older run.
+concurrency:
+  group: release-${{ github.ref_name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # so the job can upload the zip as a release asset
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install workspace deps
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Identify package from tag
+        id: pkg
+        run: |
+          # Tag format: <pkg>-v<version> (e.g. "huggingface-v0.1.0").
+          # Strip the trailing -v<rest> to get the plugin name. Works
+          # even if the plugin name itself contains hyphens (none do
+          # today, but safe for future renames).
+          PKG="${GITHUB_REF_NAME%-v*}"
+          if [ -z "$PKG" ] || [ "$PKG" = "$GITHUB_REF_NAME" ]; then
+            echo "::error::Could not parse plugin name from tag '$GITHUB_REF_NAME' (expected <pkg>-v<version>)"
+            exit 1
+          fi
+          echo "pkg=$PKG" >> "$GITHUB_OUTPUT"
+
+      - name: Sanity-check manifest version matches tag
+        run: |
+          PKG="${{ steps.pkg.outputs.pkg }}"
+          TAG_VERSION="${GITHUB_REF_NAME#*-v}"
+          MANIFEST_VERSION=$(node -p "require('./packages/$PKG/src/manifest.json').version")
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "::error::Tag version ($TAG_VERSION) does not match manifest version ($MANIFEST_VERSION). Bump packages/$PKG/src/manifest.json before tagging."
+            exit 1
+          fi
+
+      - name: Build + zip (and optionally publish)
+        env:
+          CWS_CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CWS_CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          CWS_REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+          EXTENSION_ID_LINKEDIN: ${{ secrets.EXTENSION_ID_LINKEDIN }}
+          EXTENSION_ID_GITHUB: ${{ secrets.EXTENSION_ID_GITHUB }}
+          EXTENSION_ID_X: ${{ secrets.EXTENSION_ID_X }}
+          EXTENSION_ID_YOUTUBE: ${{ secrets.EXTENSION_ID_YOUTUBE }}
+          EXTENSION_ID_REDDIT: ${{ secrets.EXTENSION_ID_REDDIT }}
+          EXTENSION_ID_HUGGINGFACE: ${{ secrets.EXTENSION_ID_HUGGINGFACE }}
+          EXTENSION_ID_HACKERNEWS: ${{ secrets.EXTENSION_ID_HACKERNEWS }}
+        run: |
+          # Auto-publish only when the matching EXTENSION_ID secret is set.
+          # First release for a plugin is intentionally upload-only — Phase
+          # 1 of PUBLISHING.md (listing, screenshots, policy) must be
+          # done by hand on Chrome Web Store before automated uploads can
+          # target a specific item ID.
+          PKG="${{ steps.pkg.outputs.pkg }}"
+          EXT_ID_VAR="EXTENSION_ID_$(echo "$PKG" | tr '[:lower:]' '[:upper:]')"
+          if [ -n "${!EXT_ID_VAR}" ]; then
+            echo "Auto-publish: $EXT_ID_VAR is set."
+            node scripts/release.mjs "$PKG" --publish
+          else
+            echo "No $EXT_ID_VAR secret — skipping CWS upload (zip will still attach to the GitHub release)."
+            node scripts/release.mjs "$PKG"
+          fi
+
+      - name: Attach zip to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/${{ steps.pkg.outputs.pkg }}-v*.zip
+          name: ${{ github.ref_name }}
+          generate_release_notes: true

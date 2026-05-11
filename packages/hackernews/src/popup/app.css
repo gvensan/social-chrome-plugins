@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 320px;
+    min-height: 480px;
+    overflow: hidden;
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    color: rgb(15 23 42);
+    background: white;
+  }
+
+  #app {
+    height: 100%;
+    width: 100%;
+  }
+
+  body.mode-popup {
+    width: 360px;
+    height: 520px;
+    min-width: 360px;
+    min-height: 520px;
+  }
+
+  body.mode-sidepanel {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .dark body {
+    color: rgb(241 245 249);
+    background: rgb(15 23 42);
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-[13px]
+      shadow-sm placeholder:text-slate-400
+      focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500
+      dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100;
+  }
+
+  .label {
+    @apply mb-1 block text-[11px] font-medium uppercase tracking-wide text-slate-500
+      dark:text-slate-400;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-[12px]
+      font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700;
+  }
+
+  .btn-secondary {
+    @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-100
+      dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700;
+  }
+
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5
+      text-[11px] font-medium text-slate-600 hover:border-brand-500 hover:text-brand-700
+      dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300;
+  }
+
+  .chip-active {
+    @apply border-brand-500 bg-brand-50 text-brand-700
+      dark:border-brand-400 dark:bg-brand-900 dark:text-brand-100;
+  }
+
+  .card {
+    @apply rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm
+      dark:border-slate-700 dark:bg-slate-800;
+  }
+}
