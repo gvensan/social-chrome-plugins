@@ -1,8 +1,9 @@
 {
   "name": "browser-search-toolkit",
   "version": "0.1.0",
-  "description": "Monorepo for browser search-URL composer extensions (LinkedIn, GitHub, X).",
+  "description": "Monorepo for browser search-URL composer extensions (LinkedIn, GitHub, X, YouTube, Reddit, Hugging Face, Hacker News).",
   "private": true,
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],

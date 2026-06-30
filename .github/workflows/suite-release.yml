@@ -1,0 +1,99 @@
+name: Suite Release
+
+# Builds and zips ALL seven extensions and publishes them together as a single
+# downloadable GitHub Release (7 zips + SHA256SUMS.txt). This is the "grab the
+# whole suite" path — separate from .github/workflows/release.yml, which handles
+# per-plugin tags and Chrome Web Store uploads. This workflow NEVER uploads to
+# the Chrome Web Store; it only produces downloadable artifacts.
+#
+# It fires three ways:
+#   • Push to main that BUMPS the root package.json "version" → auto-release.
+#     (A push to main that leaves the version unchanged does nothing.)
+#   • Push a suite tag:  git tag v0.1.0 && git push origin v0.1.0
+#   • Run it manually from the Actions tab (workflow_dispatch) and type a tag.
+#
+# The release tag is the suite version (root package.json). Individual zip
+# filenames still carry each plugin's own manifest version (e.g.
+# linkedin-v0.1.0.zip). Suite tags (`v*`) never match the per-plugin
+# `<plugin>-v*` patterns, so this and release.yml never collide.
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to create (e.g. v0.1.0)'
+        required: true
+
+concurrency:
+  group: suite-release-${{ github.event.inputs.tag || github.ref_name }}
+
+jobs:
+  suite-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # create the release and upload assets
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # need the previous commit to diff the version on a branch push
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Decide whether to release
+        id: decide
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual dispatch → releasing ${{ github.event.inputs.tag }}"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "Tag push → releasing ${GITHUB_REF_NAME}"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Branch push (main): release ONLY when the root version changed.
+          CUR=$(node -p "require('./package.json').version")
+          PREV=$(git show HEAD^:package.json 2>/dev/null \
+            | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version" 2>/dev/null || echo "")
+          echo "root version: previous='$PREV' current='$CUR'"
+          if [ "$CUR" = "$PREV" ]; then
+            echo "Version unchanged → no release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Version bumped ($PREV → $CUR) → releasing v$CUR"
+          echo "release=true" >> "$GITHUB_OUTPUT"
+          echo "tag=v$CUR" >> "$GITHUB_OUTPUT"
+
+      - name: Install workspace deps
+        if: steps.decide.outputs.release == 'true'
+        run: npm ci
+
+      - name: Run tests
+        if: steps.decide.outputs.release == 'true'
+        run: npm test
+
+      - name: Build + zip all seven plugins (+ checksums)
+        if: steps.decide.outputs.release == 'true'
+        run: npm run release:all
+
+      - name: Publish suite GitHub Release
+        if: steps.decide.outputs.release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.decide.outputs.tag }}
+          name: ${{ steps.decide.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            release/*.zip
+            release/SHA256SUMS.txt

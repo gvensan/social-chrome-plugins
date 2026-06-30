@@ -4,7 +4,7 @@
 //
 // Once a sibling is published, fill in its `webStoreUrl` and flip
 // `status` to 'available'. Coming-soon entries render as disabled cards
-// with no link.
+// with no link. All seven are published as of June 2026.
 
 export type SiblingStatus = 'available' | 'coming-soon';
 
@@ -30,8 +30,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose LinkedIn search URLs — fresh jobs, network feed, topic monitor.',
     domain: 'linkedin.com',
     status: 'available',
-    // TODO: replace with the real Web Store URL once published.
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/linkedin-feed-toolkit-uno/lbhkaflmnjhhigopjkkngfpgnlhaofag',
   },
   {
     id: 'github',
@@ -39,7 +38,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose GitHub search queries with qualifier helpers (is:open, language:rust).',
     domain: 'github.com',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/github-search-toolkit-uno/bamjodpfkbojkaapkfdghcbicebmholn',
   },
   {
     id: 'x',
@@ -47,7 +46,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose advanced X (Twitter) searches with from:, since:, filter: operators.',
     domain: 'x.com',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/x-search-toolkit-unoffici/jiiogifnplmkgeklpmdlkajkeplpjmfl',
   },
   {
     id: 'youtube',
@@ -55,7 +54,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose YouTube search URLs with sp= filter presets — recency, duration, type, sort.',
     domain: 'youtube.com',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/youtube-search-toolkit-un/lnpjjgpkglodbilhbalaandcegagbgjk',
   },
   {
     id: 'reddit',
@@ -63,7 +62,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose Reddit search and listing URLs — multireddits, top-of-week, link-target search, user feeds.',
     domain: 'reddit.com',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/reddit-search-toolkit-uno/hppmkociljhhmpkokbnjlonoblcpjpmf',
   },
   {
     id: 'huggingface',
@@ -71,7 +70,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose Hugging Face Models / Datasets / Spaces searches with task, library, license, modality, and size filters.',
     domain: 'huggingface.co',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/hugging-face-search-toolk/lbdlopblacolpmebgfkehjjkkacmccmm',
   },
   {
     id: 'hackernews',
@@ -79,7 +78,7 @@ export const SIBLING_PLUGINS: ReadonlyArray<SiblingPlugin> = [
     description: 'Compose Hacker News (Algolia) searches with points/comments thresholds, author, date range.',
     domain: 'news.ycombinator.com',
     status: 'available',
-    webStoreUrl: undefined,
+    webStoreUrl: 'https://chromewebstore.google.com/detail/hacker-news-search-toolki/ilpodjbadgihilfmiljejolclokmmlmg',
   },
 ];
 

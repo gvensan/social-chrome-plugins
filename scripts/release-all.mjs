@@ -11,6 +11,8 @@
 //                                          # every plugin)
 
 import { spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const PACKAGES = [
@@ -46,7 +48,31 @@ for (const pkg of PACKAGES) {
   summary.push({ pkg, ok: true });
 }
 
+writeChecksums();
 printSummary(summary);
+
+// Write release/SHA256SUMS.txt covering the zips just produced, in the
+// standard `sha256sum` format (`<hash>  <filename>`) so users can verify a
+// download with `sha256sum -c SHA256SUMS.txt` from inside release/.
+function writeChecksums() {
+  const lines = [];
+  for (const pkg of PACKAGES) {
+    const manifest = JSON.parse(
+      readFileSync(resolve('packages', pkg, 'src/manifest.json'), 'utf8')
+    );
+    const zipName = `${pkg}-v${manifest.version}.zip`;
+    const zipPath = resolve('release', zipName);
+    if (!existsSync(zipPath)) {
+      console.error(`[release-all] expected ${zipName} but it was not found; skipping checksum.`);
+      continue;
+    }
+    const hash = createHash('sha256').update(readFileSync(zipPath)).digest('hex');
+    lines.push(`${hash}  ${zipName}`);
+  }
+  const out = resolve('release', 'SHA256SUMS.txt');
+  writeFileSync(out, lines.join('\n') + '\n');
+  console.log(`\n>>> Wrote ${out} (${lines.length} entries)`);
+}
 
 function printSummary(rows) {
   console.log('\n========================================');
