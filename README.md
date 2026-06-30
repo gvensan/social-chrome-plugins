@@ -363,11 +363,17 @@ npm version 0.2.0 --no-git-tag-version   # edits root package.json "version"
 npm run release:all                      # or locally: build + zip all 7 → release/ + SHA256SUMS.txt
 ```
 
-The release tag is the **suite version** (root `package.json`); individual zip
-filenames still carry each plugin's own manifest version (e.g.
-`linkedin-v0.1.0.zip`). Suite tags (`v*`) are distinct from the per-plugin tags
-(`<plugin>-v*`) used by `release.yml`, so the two workflows never collide. Users
-verify a download with `sha256sum -c SHA256SUMS.txt`.
+The release tag is the **suite version** (root `package.json`). The suite zips
+use **stable, versionless names** (`linkedin.zip`, `github.zip`, …) so a direct
+download link never rots across versions — e.g. the landing page's per-card
+"Download" buttons and
+`…/releases/latest/download/<plugin>.zip` always resolve to the newest release.
+Each zip's bundled `manifest.json` still carries its own per-plugin version.
+(The per-plugin Web Store path in `release.yml` keeps versioned
+`<plugin>-v<version>.zip` names; only the suite bundle uses stable names.) Suite
+tags (`v*`) are distinct from the per-plugin tags (`<plugin>-v*`), so the two
+workflows never collide. Users verify a download with
+`sha256sum -c SHA256SUMS.txt`.
 
 ## Permissions and privacy
 

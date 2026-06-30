@@ -12,10 +12,12 @@ name: Suite Release
 #   • Push a suite tag:  git tag v0.1.0 && git push origin v0.1.0
 #   • Run it manually from the Actions tab (workflow_dispatch) and type a tag.
 #
-# The release tag is the suite version (root package.json). Individual zip
-# filenames still carry each plugin's own manifest version (e.g.
-# linkedin-v0.1.0.zip). Suite tags (`v*`) never match the per-plugin
-# `<plugin>-v*` patterns, so this and release.yml never collide.
+# The release tag is the suite version (root package.json). Suite zips use
+# stable, versionless names (linkedin.zip, github.zip, …) so direct download
+# links never rot — /releases/latest/download/<plugin>.zip always resolves. Each
+# zip's bundled manifest.json still carries its own per-plugin version. Suite
+# tags (`v*`) never match the per-plugin `<plugin>-v*` patterns, so this and
+# release.yml never collide.
 on:
   push:
     branches: [main]

@@ -12,7 +12,7 @@
 
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const PACKAGES = [
@@ -48,8 +48,26 @@ for (const pkg of PACKAGES) {
   summary.push({ pkg, ok: true });
 }
 
+stabilizeNames();
 writeChecksums();
 printSummary(summary);
+
+// Rename each versioned zip (`<plugin>-v<version>.zip`, as emitted by
+// release.mjs) to a stable, versionless `<plugin>.zip` for the suite bundle.
+// Stable names mean download links never rot when a version bumps — the landing
+// page's per-card "Download" buttons and `/releases/latest/download/<plugin>.zip`
+// always resolve. The suite version lives in the GitHub release tag, and each
+// zip's bundled manifest.json still carries its own per-plugin version.
+function stabilizeNames() {
+  for (const pkg of PACKAGES) {
+    const version = JSON.parse(
+      readFileSync(resolve('packages', pkg, 'src/manifest.json'), 'utf8')
+    ).version;
+    const versioned = resolve('release', `${pkg}-v${version}.zip`);
+    const stable = resolve('release', `${pkg}.zip`);
+    if (existsSync(versioned)) renameSync(versioned, stable);
+  }
+}
 
 // Write release/SHA256SUMS.txt covering the zips just produced, in the
 // standard `sha256sum` format (`<hash>  <filename>`) so users can verify a
@@ -57,10 +75,7 @@ printSummary(summary);
 function writeChecksums() {
   const lines = [];
   for (const pkg of PACKAGES) {
-    const manifest = JSON.parse(
-      readFileSync(resolve('packages', pkg, 'src/manifest.json'), 'utf8')
-    );
-    const zipName = `${pkg}-v${manifest.version}.zip`;
+    const zipName = `${pkg}.zip`;
     const zipPath = resolve('release', zipName);
     if (!existsSync(zipPath)) {
       console.error(`[release-all] expected ${zipName} but it was not found; skipping checksum.`);
