@@ -14,6 +14,10 @@
   <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white">
 </p>
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="Search Composer Toolkit — install and download the seven Chrome extensions" width="760">
+</p>
+
 Each tool only **composes URLs and opens them in your browser**. No scraping, no
 automation, no content scripts on page load, no platform APIs, and no data ever
 leaves your machine. The platform does the actual search; the tool just makes
@@ -41,8 +45,10 @@ the URL easy to construct.
 
 ## Install
 
-All seven are published on the Chrome Web Store. Install one, some, or all —
-each runs in its own side panel and shares no runtime state with the others.
+All seven are published on the Chrome Web Store — **[browse the full publisher
+catalog](https://chromewebstore.google.com/search/gvensan)**. Install one, some,
+or all — each runs in its own side panel and shares no runtime state with the
+others.
 
 | Extension | Platform | Install | Source |
 | --- | --- | --- | --- |
